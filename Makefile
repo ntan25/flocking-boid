@@ -7,8 +7,10 @@ boid: main.cpp boid.cpp boid.h
 	$(CXX) $(CXXFLAGS) main.cpp -o flocking-boid
 
 
+#testing purposes only a seed value is needed
 run: boid
-	./flocking-boid
+	./flocking-boid 1
 
 clean: 
-	rm flocking-boid
+	rm flocking-boid  
+

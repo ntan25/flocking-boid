@@ -17,7 +17,7 @@ class Boid
 
     public: 
         Boid(); 
-        Boid(std::array<double, 2> position, std::array<double, 2> velocity);  
+        Boid(std::array<double, 2>& position, std::array<double, 2>& velocity);  
     
     private: 
         std::array<double, 2> pos; 

@@ -7,7 +7,7 @@ int main(int argc, char* argv[]){
       std::cout << "Please provide seed value" << std:: endl;   
       return 1; 
     }
-    srand(argv[1]); 
+    srand(atoi(argv[1])); 
 
 
 
