@@ -7,6 +7,7 @@
 #include <array> 
 #include <sstream> 
 #include <iomanip> 
+#include <cstdlib> 
 
 #define WIDTH 640 
 #define HEIGHT 360 
@@ -29,10 +30,11 @@ class Flock
         Flock(size_t seed); 
         Flock(size_t seed, int numBoids); 
         ~Flock(); 
-        boidVec getNeighbors(Boid b, boidVec boids); 
-        std::array<double, 2> Cohesion(Boid& b, boidVec neighords); 
-        std::array<double, 2>  Separation(Boid& b, boidVec neighords); 
-        std::array<double, 2> Alignment(Boid& b, boidVec neighords); 
+        boidVec getNeighbors(Boid& b); 
+        std::array<double, 2> Cohesion(Boid& b, boidVec neighbors); 
+        std::array<double, 2>  Separation(Boid& b, boidVec neighobrs); 
+        std::array<double, 2> Alignment(Boid& b, boidVec neighbors); 
+        std::array<double, 2> centerofMass(Boid& b); 
         boidVec boids; 
 
 }; 

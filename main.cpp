@@ -12,14 +12,13 @@ int main(int argc, char* argv[]){
 
     for(auto &b : env.boids){
       std::cout << b << std::endl; 
+      std::cout << b->pos[0] << " " << b->pos[1] << std::endl; 
+      std::cout << b->vel[0] << " " << b->vel[1] << std::endl; 
     }
 
 
-    
-
-
-
-    std::cout << "Hello World" << std::endl; 
+  
+    std::cout << "Exit Success" << std::endl; 
 
 
 

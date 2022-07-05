@@ -50,6 +50,83 @@ Flock::~Flock(){
     }
 }
 
+boidVec Flock::getNeighbors(Boid& b){
+    boidVec res; 
+    double neighborDistance = 20.;
+    for(auto& c : this->boids){
+        if(abs(b.pos[0] - c->pos[0]) <= neighborDistance || abs(b.pos[1] - c->pos[1]) <= neighborDistance){
+            res.push_back(c); 
+        }
+    }
+    return res; 
+}
+
+//Center of Mass Excluding the Boid passed as an argument
+std::array<double, 2> Flock::centerofMass(Boid& b){
+    std::array<double, 2> res; 
+    
+    double px = 0.;
+    double py = 0.; 
+
+    for(auto& c : this->boids){
+        //Is this the boid passed in as an input, if so ignore
+        if(c->pos[0] == b.pos[0] && c->pos[1] == b.pos[1] && c->vel[0] == b.vel[0] && c->vel[1] == b.vel[1]){
+            continue; 
+        }
+        else{
+            px += c->pos[0]; 
+            py += c->pos[1]; 
+        }
+    }
+
+    px /= (this->boids.size() - 1); 
+    py /= (this->boids.size() - 1); 
+
+    res[0] = px; 
+    res[1] = py; 
+
+    return res; 
+}
+
+//Rules will only apply to the velocity position gets updated as a function of velocity
+
+// Rule 1: Boids flock towards the center
+std::array<double, 2> Flock::Cohesion(Boid& b, boidVec neighbors){
+
+    std::array<double, 2> res{0., 0.}; 
+    if(neighbors.size() == 0) return res; 
+
+
+
+
+    return res; 
+}
+
+//Rule 2: Ensure no overlap between boids to amke sure they are not near each other
+std::array<double, 2>  Flock::Separation(Boid& b, boidVec neighbors){
+    std::array<double, 2> res{0., 0.};
+    if(neighbors.size() == 0) return res;  
+
+
+    return res; 
+}
+
+//Rule 3: Align velocity vectors based on neighbors 
+std::array<double, 2> Flock::Alignment(Boid& b, boidVec neighbors){
+    std::array<double, 2> res{0., 0.};
+    if(neighbors.size() == 0) return res;  
+
+
+
+    return res; 
+}
+
+
+//This is going to look something like a += b
+void arrayAdd(std::array<double, 2>& a, std::array<double, 2>& b){
+    a[0] += b[0]; 
+    a[1] += b[1]; 
+}
 
 
 
