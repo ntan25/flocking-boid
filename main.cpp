@@ -1,4 +1,4 @@
-#include "boid.cpp"
+#include "flock.cpp"
 
 
 int main(int argc, char* argv[]){
@@ -7,7 +7,15 @@ int main(int argc, char* argv[]){
       std::cout << "Please provide seed value" << std:: endl;   
       return 1; 
     }
-    srand(atoi(argv[1])); 
+
+    Flock env(atoi(argv[1])); 
+
+    for(auto &b : env.boids){
+      std::cout << b << std::endl; 
+    }
+
+
+    
 
 
 
