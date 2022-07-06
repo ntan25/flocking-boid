@@ -52,10 +52,12 @@ Flock::~Flock(){
 
 boidVec Flock::getNeighbors(Boid& b){
     boidVec res; 
-    double neighborDistance = 20.;
+    double neighborDistance = 40.;
     for(auto& c : this->boids){
         if(abs(b.pos[0] - c->pos[0]) <= neighborDistance || abs(b.pos[1] - c->pos[1]) <= neighborDistance){
-            res.push_back(c); 
+            if(!(abs(b.pos[0] - c->pos[0]) == 0)){ //make sure we are not including itslef in the neighborhood
+                res.push_back(c);
+            }
         }
     }
     return res; 
@@ -88,6 +90,27 @@ std::array<double, 2> Flock::centerofMass(Boid& b){
     return res; 
 }
 
+//Center of Mass excluding boid and only neighbors
+std::array<double, 2> Flock::neighborCenter(boidVec neighbors){
+    std::array<double, 2> res; 
+
+    double px = 0; 
+    double py = 0; 
+
+    for(auto& c: neighbors){
+        px += c->pos[0]; 
+        py += c->pos[1];    
+    }
+
+    px /= neighbors.size(); 
+    py /= neighbors.size(); 
+
+    res[0] = px; 
+    res[1] = py; 
+
+    return res; 
+}
+
 //Rules will only apply to the velocity position gets updated as a function of velocity
 
 // Rule 1: Boids flock towards the center
@@ -96,17 +119,29 @@ std::array<double, 2> Flock::Cohesion(Boid& b, boidVec neighbors){
     std::array<double, 2> res{0., 0.}; 
     if(neighbors.size() == 0) return res; 
 
+    res = neighborCenter(neighbors); 
 
 
+    //moving one percent closer to center of mass 
+    res[0] /= 100; 
+    res[1] /= 100;
 
     return res; 
 }
 
 //Rule 2: Ensure no overlap between boids to amke sure they are not near each other
 std::array<double, 2>  Flock::Separation(Boid& b, boidVec neighbors){
-    std::array<double, 2> res{0., 0.};
-    if(neighbors.size() == 0) return res;  
 
+    double boid_padding = 8.; 
+    std::array<double, 2> res{0., 0.};
+    if(neighbors.size() == 0) return res;
+
+    for(auto& c: neighbors){
+        if(abs(b.pos[0] - c->pos[0]) <= boid_padding || abs(b.pos[1] - c->pos[1]) <= boid_padding){
+            res[0] -= c->pos[0] - b.pos[0]; 
+            res[1] -= c->pos[1] - b.pos[1]; 
+        }
+    }
 
     return res; 
 }
@@ -126,6 +161,15 @@ std::array<double, 2> Flock::Alignment(Boid& b, boidVec neighbors){
 void arrayAdd(std::array<double, 2>& a, std::array<double, 2>& b){
     a[0] += b[0]; 
     a[1] += b[1]; 
+}
+
+//Updates positions of every boid
+void Flock::update(){
+
+
+
+
+
 }
 
 

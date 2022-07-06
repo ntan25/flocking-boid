@@ -10,6 +10,7 @@ int main(int argc, char* argv[]){
 
     Flock env(atoi(argv[1])); 
 
+
     for(auto &b : env.boids){
       std::cout << b << std::endl; 
       std::cout << b->pos[0] << " " << b->pos[1] << std::endl; 

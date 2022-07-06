@@ -35,6 +35,8 @@ class Flock
         std::array<double, 2>  Separation(Boid& b, boidVec neighobrs); 
         std::array<double, 2> Alignment(Boid& b, boidVec neighbors); 
         std::array<double, 2> centerofMass(Boid& b); 
+        std::array<double, 2> neighborCenter(boidVec neighbors); 
+        void update(); 
         boidVec boids; 
 
 }; 
