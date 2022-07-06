@@ -8,7 +8,7 @@ int main(int argc, char* argv[]){
       return 1; 
     }
 
-    Flock env(atoi(argv[1])); 
+    Flock env(atoi(argv[1]), 100); 
 
 
     for(auto &b : env.boids){
@@ -18,6 +18,7 @@ int main(int argc, char* argv[]){
     }
 
 
+    env.update(); 
   
     std::cout << "Exit Success" << std::endl; 
 

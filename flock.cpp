@@ -1,5 +1,9 @@
 #include "flock.h"
 
+
+void arrayAdd(std::array<double, 2>& a, std::array<double, 2>& b); 
+
+
 Flock::Flock(size_t seed){
     srand(seed); 
     double px, py, vx, vy; 
@@ -111,6 +115,26 @@ std::array<double, 2> Flock::neighborCenter(boidVec neighbors){
     return res; 
 }
 
+std::array<double, 2> Flock::neighborVelocity(boidVec neighbors){
+    std::array<double, 2> res; 
+
+    double vx = 0.; 
+    double vy = 0.; 
+
+    for(auto& c: neighbors){
+        vx += c->vel[0]; 
+        vy += c->vel[1]; 
+    }
+
+    vx /= neighbors.size();
+    vy /= neighbors.size(); 
+
+    res[0] = vx; 
+    res[1] = vy; 
+
+    return res; 
+}
+
 //Rules will only apply to the velocity position gets updated as a function of velocity
 
 // Rule 1: Boids flock towards the center
@@ -149,9 +173,15 @@ std::array<double, 2>  Flock::Separation(Boid& b, boidVec neighbors){
 //Rule 3: Align velocity vectors based on neighbors 
 std::array<double, 2> Flock::Alignment(Boid& b, boidVec neighbors){
     std::array<double, 2> res{0., 0.};
-    if(neighbors.size() == 0) return res;  
+    if(neighbors.size() == 0) return res; 
 
+    res = neighborVelocity(neighbors); 
 
+    res[0] -= b.vel[0]; 
+    res[1] -= b.vel[1]; 
+
+    res[0] /= 100; 
+    res[1] /= 100; 
 
     return res; 
 }
@@ -166,10 +196,33 @@ void arrayAdd(std::array<double, 2>& a, std::array<double, 2>& b){
 //Updates positions of every boid
 void Flock::update(){
 
+    int time_days = 20; 
+    int t_step = 30; 
 
 
+    for(int i = 0; i < time_days * t_step; ++i){
+        for(const auto& c: this->boids){
+            boidVec n = getNeighbors(*c); 
+            std::array<double, 2> v1{0., 0.};
+            std::array<double, 2> v2{0., 0.};
+            std::array<double, 2> v3{0., 0.};
+
+            v1 = this->Cohesion(*c, n);
+            v2 = this->Separation(*c, n); 
+            v3 = this->Alignment(*c, n); 
 
 
+            //Combine vectors for the three rules
+            arrayAdd(c->vel, v1);
+            arrayAdd(c->vel, v2);
+            arrayAdd(c->vel, v3); 
+
+            //Update position
+            arrayAdd(c->pos, c->vel); 
+
+        }
+    }
+    
 }
 
 
