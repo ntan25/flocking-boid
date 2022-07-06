@@ -1,5 +1,7 @@
 # flocking-boid
 
+## To Do: 
+- Implement SFML
 
 ## Sources: 
 - https://medium.com/fragmentblog/simulating-flocking-with-the-boids-algorithm-92aef51b9e00
